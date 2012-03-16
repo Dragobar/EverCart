@@ -5,18 +5,21 @@ import java.util.ArrayList;
 import org.bukkit.Chunk;
 import org.bukkit.entity.StorageMinecart;
 import org.bukkit.entity.Vehicle;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
-import org.bukkit.event.vehicle.VehicleListener;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
 
-public class CartListener extends VehicleListener {
+public class CartListener implements Listener {
 	protected EverCart plugin;
 	private ArrayList<Chunk> old = new ArrayList<Chunk>();
 
 	public CartListener(EverCart plugin) {
 		this.plugin = plugin;
 	}
-	
+
+	@EventHandler(priority=EventPriority.LOWEST)
 	public void onVehicleBlockCollision(VehicleBlockCollisionEvent e) {
 		Vehicle v = e.getVehicle();
 		if (v instanceof StorageMinecart) {
@@ -31,6 +34,7 @@ public class CartListener extends VehicleListener {
 		}
 	}
 
+	@EventHandler(priority=EventPriority.LOWEST)
 	public void onVehicleMove(VehicleMoveEvent e) {
 		Vehicle v = e.getVehicle();
 		if (v instanceof StorageMinecart) {
