@@ -1,5 +1,14 @@
-name: MoreEverCart
+name: AdvEverCart
 main: com.sparkedia.valrix.evercart.EverCart
-version: 1.1.0
-authors: [Valrix, AgentME, zhuowei]
-description: Allows storage carts to move in uninhabited parts of the map
+version: 2.0.0
+authors: [Valrix, AgentME, zhuowei, Dragobar]
+description: Allows minecarts to move in uninhabited parts of the map to move goods, mobs, villagers and more to distant places and players.
+commands:
+    evercart:
+        description: The mina EverCart command.
+        permission: evercart
+        usage: /<command> 
+permissions: 
+    evercart:
+    	description: Gives access to the evercart toggle system.
+    	
