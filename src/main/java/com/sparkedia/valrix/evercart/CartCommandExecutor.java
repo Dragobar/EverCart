@@ -68,6 +68,16 @@ public class CartCommandExecutor implements CommandExecutor {
 		if (this.carts == null) {
 			this.carts = this.config.createSection("evercart");
 			toggle(STORAGE);
+		} else {
+			init();
+		}
+	}
+
+	private void init() {
+		for (String type : types) {
+			if (carts.getBoolean(type)) {
+				toggle(type);
+			}
 		}
 	}
 
@@ -81,15 +91,20 @@ public class CartCommandExecutor implements CommandExecutor {
 			usage(sender);
 			return true;
 		}
-		if (args[0].equals(ALL)) {
+		if (args[0].equals(ACTIVE)) {
+			showActive(sender);
+			return true;
+		} else if (args[0].equals(ALL)) {
 			if (args.length < 2
 					|| (!args[1].equals(ON) && !args[1].equals(OFF))) {
 				usage(sender);
 				return true;
 			}
 			all(args[1].equals(ON));
+			showActive(sender);
 		} else if (args.length == 1) {
 			toggle(args[0]);
+			showActive(args[0], sender);
 		} else {
 			Boolean on = null;
 			if (args[1].equals(ON)) {
@@ -104,8 +119,8 @@ public class CartCommandExecutor implements CommandExecutor {
 			} else {
 				toggle(args[0], on);
 			}
+			showActive(args[0], sender);
 		}
-		showActive(sender);
 		return true;
 	}
 
@@ -146,6 +161,12 @@ public class CartCommandExecutor implements CommandExecutor {
 			msgs.add("\t" + ChatColor.WHITE + "none");
 		}
 		sender.sendMessage(msgs.toArray(new String[0]));
+	}
+
+	private void showActive(String type, CommandSender sender) {
+		boolean on = carts.getBoolean(type);
+		sender.sendMessage(ChatColor.DARK_PURPLE + (on ? "A" : "Dea")
+				+ "ctivated type " + ChatColor.WHITE + type);
 	}
 
 	private void usage(CommandSender sender) {
