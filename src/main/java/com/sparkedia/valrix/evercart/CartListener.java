@@ -42,7 +42,7 @@ public class CartListener implements Listener {
 		activeTypes.remove(type);
 		Set<Minecart> remove = new HashSet<Minecart>();
 		for (Minecart m : activeCarts.keySet()) {
-			if (type.equals(m.getClass())) {
+			if (type.isAssignableFrom(m.getClass())) {
 				unloadAll(activeCarts.get(m));
 				remove.add(m);
 			}
@@ -69,8 +69,7 @@ public class CartListener implements Listener {
 		if (!active(v)) {
 			return;
 		}
-		Minecart m = (Minecart) v;
-		unloadAll(activeCarts.remove(m));
+		unloadAll(activeCarts.remove(v));
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST)
@@ -81,7 +80,7 @@ public class CartListener implements Listener {
 		}
 		Minecart m = (Minecart) v;
 		// Get current chunk
-		Chunk current = v.getLocation().getBlock().getChunk();
+		Chunk current = m.getLocation().getBlock().getChunk();
 		// Set range that we want to keep the cart alive at.
 		int range = 2;
 		// Load in new chunks as we get to them.
